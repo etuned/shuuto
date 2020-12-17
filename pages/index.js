@@ -3,12 +3,9 @@ import ColorSwitcher from '../components/ColorSwitcher'
 import client from '../lib/client'
 import Image from 'next/image'
 
-const IndexPage = (props) => {
- 
-
-  const { siteTitle = 'Missing site title', heroImageUrl = 'http://via.placeholder.com/550x350', heroImage} = props
+const IndexPage = ({data}) => {
+  const { siteTitle = 'Missing site title', heroImageUrl = 'http://via.placeholder.com/550x350', heroImage} = data
   const heroImageCap = heroImage.caption || 'Yo Shuuto, Add a caption to the Hero Image!'
-  { console.log(heroImage) }
   return (
     <Center>
     <Box>
@@ -32,8 +29,13 @@ const IndexPage = (props) => {
 }
 export default IndexPage
 
-IndexPage.getInitialProps = async function() {
-  // It's important to default the slug so that it doesn't return "undefined"
-  return await client.fetch(`*[_type == "siteSettings"][1]{'siteTitle': title,'heroImageUrl': heroImage.asset->url, heroImage}`)
-}
 
+export async function getStaticProps() {
+  const data = await client.fetch(`*[_type == "siteSettings"][1]{'siteTitle': title,'heroImageUrl': heroImage.asset->url, heroImage}`)
+  return {
+    props: {
+      data
+    },
+    revalidate: 1,
+  };
+}
