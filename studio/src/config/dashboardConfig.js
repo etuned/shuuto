@@ -1,8 +1,11 @@
 export default {
-    widgets: [
-      {
-        name: 'project-info'
-        }
-    ]
-  }
-  
+  widgets: [
+    {name: 'minesweeper'},
+    {
+      name: 'project-info'
+    },
+    {
+      name: 'project-users'
+    }
+  ]
+}
